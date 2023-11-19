@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace Lucky9.Application._BusinessRules
 {
@@ -76,23 +77,32 @@ namespace Lucky9.Application._BusinessRules
                 };
 
             }
-            user.Token = GettToken(user);//CreateJwt(user);
-            var newAccessToken = user.Token;
-            var newRefreshToken = CreateRefreshToken();
-            user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(5);
-            await _repo.Update(user);
-
-            //var vResult = ValidationHelper.Summarize(validationResult);
-
-            return new TokenApiDto
+            try
             {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                ValidationResult = null
-            };
+                user.Token = GettToken(user);//CreateJwt(user);
+                var newAccessToken = user.Token;
+                var newRefreshToken = CreateRefreshToken();
+                user.RefreshToken = newRefreshToken;
+                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(5);
+                await _repo.Update(user);
+
+                //var vResult = ValidationHelper.Summarize(validationResult);
+
+                return new TokenApiDto
+                {
+                    AccessToken = newAccessToken,
+                    RefreshToken = newRefreshToken,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    ValidationResult = null
+                };
+            }
+            catch (Exception err)
+            {
+               
+                throw;
+            }
+            
 
         }
 

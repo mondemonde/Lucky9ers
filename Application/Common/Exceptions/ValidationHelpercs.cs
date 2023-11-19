@@ -29,7 +29,7 @@ namespace Lucky9.Application.Common.Exceptions
                 return errors.ToList();
             }
 
-            return new List<ValidationDto>();
+            return null; //new List<ValidationDto>();
         }
 
     }

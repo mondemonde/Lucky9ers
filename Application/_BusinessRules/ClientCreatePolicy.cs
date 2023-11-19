@@ -88,20 +88,26 @@ public static  class ClientPolicy
         }
 
         //check username
-        var userNames = await _repo.FindAsync(c => c.Email == request.Email);
-        var userName = userNames.FirstOrDefault();
-        if (current != null)
-        {
-            var failure = new ValidationFailure("Username", "Username Already Exist");
-            validationResult.Errors.Add(failure);
+        //var userNames = await _repo.FindAsync(c => c.Email == request.Email);
+        //var userName = userNames.FirstOrDefault();
+        //if (current != null)
+        //{
+        //    var failure = new ValidationFailure("Username", "Username Already Exist");
+        //    validationResult.Errors.Add(failure);
 
-        }     
+        //}  
 
         
+        if(validationResult.Errors.Count()==0) {
 
-        userObj.Password = PasswordHasher.HashPassword(request.Password);
-        userObj.Role = "User";
-        userObj.Token = "";
+            userObj.Password = PasswordHasher.HashPassword(request.Password);
+            userObj.Role = "User";
+            userObj.Token = "";
+        }else
+        {
+            userObj.Password = null;
+        }
+       
         userObj.Username = userObj.Email;
 
         userObj.ValidationResult = ValidationHelper.Summarize(validationResult);

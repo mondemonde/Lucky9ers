@@ -103,7 +103,7 @@ namespace Application.Controllers
 
                 var result = await Mediator.Send(param);
 
-                if (result.ValidationResult.Count > 0)
+                if (result.ValidationResult != null)
                 {
 
                     // Return BadRequest with the custom error model
