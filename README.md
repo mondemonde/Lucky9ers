@@ -21,7 +21,8 @@ If you look closely to folder, you will find in there all the logic that is requ
 	* https://lucky9ers.azurewebsites.net
 
 ### Aknowledgement: 
-* Deck of cards library - https://github.com/deck-of-cards/deck-of-cards
+* CleanArchitecture template - https://github.com/jasontaylordev/CleanArchitecture
 * Simple flip card Animations -  https://zoaibkhan.com/blog/angular-animations-create-a-card-flip-animation/
+* Deck of cards library - https://github.com/deck-of-cards/deck-of-cards
 * Authentication- https://www.youtube.com/playlist?list=PLc2Ziv7051bZhBeJlJaqq5lrQuVmBJL6A
 
