@@ -1,0 +1,440 @@
+/* You can add global styles to this file, and also import other style files */
+
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('./assets/css/custom.css');
+
+html {
+  background: url('https://ik.imagekit.io/mond/lucky9/velvet.png?updatedAt=1699619253843') no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  overflow: hidden;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #45a173;
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+} */
+
+/* #container {
+  position: fixed;
+  top: calc(50% + 1.5rem);
+  left: 50%;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  -moz-transform: translate3d(-50%, -50%, 0);
+  -o-transform: translate3d(-50%, -50%, 0);
+  -ms-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+} */
+
+.message {
+  position: fixed;
+  top: 2.5rem;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0.5rem;
+  font-size: 0.5rem;
+  text-align: center;
+}
+
+.baraha {
+  position: absolute;
+  display: inline-block;
+  left: -1.9375rem;
+  top: -2.75rem;
+  width: 6.875rem;
+  height: 10.5rem;
+  background-color: #fff;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  cursor: default;
+}
+
+.baraha:before,
+.baraha:after {
+  position: absolute;
+  font-size: 0.7rem;
+  text-align: center;
+  line-height: 0.7rem;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  white-space: pre-line;
+  width: 0.55rem;
+  letter-spacing: -0.1rem;
+}
+
+.baraha:before {
+  top: 0.15rem;
+  left: 0;
+}
+
+.baraha:after {
+  bottom: 0.1rem;
+  right: 0;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.baraha .face {
+  height: 100%;
+  background-position: 50% 50%;
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.baraha .back {
+  position: absolute;
+  background-image: url("assets/images/card.png");
+  background-position: 50% 50%;
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.baraha.spades,
+.baraha.clubs,
+.baraha.joker {
+  color: #000;
+}
+
+.baraha.hearts,
+.baraha.diamonds,
+.baraha.joker.rank3 {
+  color: #d40000;
+}
+
+.baraha.joker.rank1:before,
+.baraha.joker.rank2:before,
+.baraha.joker.rank3:before,
+.baraha.joker.rank1:after,
+.baraha.joker.rank2:after,
+.baraha.joker.rank3:after {
+  content: "J\a O\a K\a E\a R";
+  letter-spacing: 0;
+  font-size: 0.4rem;
+  line-height: 0.4rem;
+  padding: 0.15rem 0.05rem;
+  width: 0.5rem;
+}
+
+.baraha.rank1:before,
+.baraha.rank1:after {
+  content: "A";
+}
+
+.baraha.rank2:before,
+.baraha.rank2:after {
+  content: "2";
+}
+
+.baraha.rank3:before,
+.baraha.rank3:after {
+  content: "3";
+}
+
+.baraha.rank4:before,
+.baraha.rank4:after {
+  content: "4";
+}
+
+.baraha.rank5:before,
+.baraha.rank5:after {
+  content: "5";
+}
+
+.baraha.rank6:before,
+.baraha.rank6:after {
+  content: "6";
+}
+
+.baraha.rank7:before,
+.baraha.rank7:after {
+  content: "7";
+}
+
+.baraha.rank8:before,
+.baraha.rank8:after {
+  content: "8";
+}
+
+.baraha.rank9:before,
+.baraha.rank9:after {
+  content: "9";
+}
+
+.baraha.rank10:before,
+.baraha.rank10:after {
+  content: "10";
+}
+
+.baraha.rank11:before,
+.baraha.rank11:after {
+  content: "J";
+}
+
+.baraha.rank12:before,
+.baraha.rank12:after {
+  content: "Q";
+}
+
+.baraha.rank13:before,
+.baraha.rank13:after {
+  content: "K";
+}
+
+.baraha.spades.rank1 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank2 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank3 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank4 .face {
+  background-image: url("assets/images/card.png");
+
+}
+
+.baraha.spades.rank5 .face {
+
+  background-image: url("assets/images/card.png");
+
+}
+
+.baraha.spades.rank6 .face {
+
+  background-image: url("assets/images/card.png");
+
+}
+
+.baraha.spades.rank7 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank8 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank9 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank10 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank11 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank12 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.spades.rank13 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank1 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank2 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank3 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank4 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank5 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank6 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank7 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank8 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank9 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank10 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank11 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank12 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.hearts.rank13 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank1 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank2 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank3 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank4 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank5 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank6 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank7 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank8 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank9 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank10 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank11 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank12 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.clubs.rank13 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank1 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank2 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank3 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank4 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank5 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank6 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank7 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank8 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank9 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank10 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank11 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank12 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.diamonds.rank13 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.joker.rank1 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.joker.rank2 .face {
+  background-image: url("assets/images/card.png");
+}
+
+.baraha.joker.rank3 .face {
+  background-image: url("assets/images/card.png");
+}

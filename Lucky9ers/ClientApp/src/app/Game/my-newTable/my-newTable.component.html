@@ -1,0 +1,59 @@
+<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Aclonica" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+
+<div></div>
+
+<div id="deck" class="floating-div-Dealer .bg-transparent">
+
+  <!-- <app-my-dealer></app-my-dealer> -->
+
+
+</div>
+
+
+
+<div class="floating-div-menu">
+
+
+
+  <ul class="navbar-nav flex-grow">
+    <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+
+      <button id="btnPlay" disabled (click)="NewGameClicked()" type="button" class="btn btn-link">Draw Cards</button>
+    </li>
+    <li class="nav-item" [routerLinkActive]="['link-active']">
+      <a class="btn btn-link" [routerLink]="['/dashboard']">Dash Board</a>
+    </li>
+
+
+  </ul>
+
+
+
+</div>
+
+
+
+<div *ngIf="showEvents2" @fadeSlide (@fadeSlide.start)="toggleFlag = true" (@fadeSlide.done)="toggleFlag = false">
+
+
+  <div id="sd-1" class="floating-div1 sd-1 servers-card">
+
+    <app-my-flipCard [CardId]="'P1'" class="cardTable cardTable1 ">&spades;</app-my-flipCard>
+  </div>
+
+  <div id="sd-2" class="sd-2 floating-div2 players-card">
+    <app-my-flipCard [CardId]="'P2'" class="cardTable cardTable1 ">&spades;</app-my-flipCard>
+  </div>
+
+  <div id="sd-3" class="floating-div3 sd-1 servers-card-2">
+    <app-my-flipCard [CardId]="'S1'" class="cardTable cardTable1 ">&spades;</app-my-flipCard>
+  </div>
+
+  <div id="sd-4" class="floating-div4 sd-2 plyers-card">
+    <app-my-flipCard [CardId]="'S2'" class="cardTable cardTable1 ">&spades;</app-my-flipCard>
+  </div>
+
+
+</div>
