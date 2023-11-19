@@ -3,7 +3,7 @@ name: Backend Build and Test
 on:
 push:
     branches:
-      - main  # change this to your default branch
+      - master  # change this to your default branch
   workflow_dispatch:
 
 jobs:
