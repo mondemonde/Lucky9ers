@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <Compile Remove="_BusinessRules\ClientEditPolicy.cs" />
+      <Compile Remove="_BusinessRules\GameSearchPolicy.cs" />
       <Compile Remove="_Features\GameFeatures\Queries\GetClientGames\GetClientsQuery.cs" />
       <Compile Remove="_Features\Utilities\ChaosUtility.cs" />
     </ItemGroup>

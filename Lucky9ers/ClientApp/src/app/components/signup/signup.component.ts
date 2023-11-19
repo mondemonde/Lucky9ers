@@ -53,15 +53,16 @@ export class SignupComponent extends  BaseComponent implements OnInit {
         next:(res=>{
           console.log(res.message);
 
-
-          if(res.ValidationResult!==null) {
-            this.toast.warning("Oops", res.ValidationResults[0]);
+          let errs = res.ValidationResult ?? null;
+          if(errs) {
+            this.toast.warning("Oops", errs[0]);
             return res;
           }
 
           this.signUpForm.reset();
           this.router.navigate(['login']);
-          alert(res.message)
+          //alert(res.message)
+          this.toast.success(res.message);
           AuthService.currentUser = res.email;
         }),
         error:(err=>{

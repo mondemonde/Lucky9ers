@@ -25,9 +25,6 @@ public static class GameFindPolicy
 
         var src = search.ToLower().Trim();
 
-        //list = await repo.FindAsync(
-        //    c => c.Bets.ToLower().Contains(src)
-        //    || c.LastName.ToLower().Contains(src));
 
         return list.ToList();
     }
