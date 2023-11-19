@@ -1,0 +1,29 @@
+name: Backend Build and Test
+
+on:
+push:
+    branches:
+      - master  # change this to your default branch
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 5.0  # change this to your .NET Core version
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Test
+      run: dotnet test
