@@ -19,3 +19,9 @@ If you look closely to folder, you will find in there all the logic that is requ
 * I deployed this already in azure for tesing , this is playable now but there are still alot missing
    but for design evaluation this is enough for now.
 	* https://lucky9ers.azurewebsites.net
+
+### Aknowledgement: 
+* Deck of cards library - https://github.com/deck-of-cards/deck-of-cards
+* Simple flip card Animations -  https://zoaibkhan.com/blog/angular-animations-create-a-card-flip-animation/
+* Authentication- https://www.youtube.com/playlist?list=PLc2Ziv7051bZhBeJlJaqq5lrQuVmBJL6A
+
