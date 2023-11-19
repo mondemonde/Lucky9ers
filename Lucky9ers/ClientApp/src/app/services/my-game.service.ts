@@ -41,8 +41,8 @@ export class MyGameService implements OnInit, OnDestroy {
 
 
 
-  constructor(private http: HttpClient,private helper: MyGameHelperService,
-     private myGlobal: MyGlobalService,
+  constructor(private http: HttpClient, private helper: MyGameHelperService,
+    private myGlobal: MyGlobalService,
     private auth: AuthService,) {
 
 
@@ -199,7 +199,7 @@ export class MyGameService implements OnInit, OnDestroy {
     );
   }
 
-//using this for some unknown reson maybe cors issue
+  //using this for some unknown reson maybe cors issue
   makeHttpPostRequest2(url: string, body: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
