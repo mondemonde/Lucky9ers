@@ -2,7 +2,8 @@
 This is a simple card game project to explore Clean Code architecture.
 
 Here are the notable feature of the project:
-* The project is based on Jason Talor's template as suggested in appendix
+*  The project is based on Jason Talor's template as suggested in appendix
+*  The database is Sqlite
 * I disabled the middle ware validation handler to implement my own validation - see comments on my BusinessRule folder below.
 * I had some issues with the Identity server so I just implemnted a simple authentication to continue the project
 	*about the issue it turns out I can create my own certificate to deploy in azure to fix the issue.
