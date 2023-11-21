@@ -36,7 +36,8 @@ namespace Application.Controllers
         }
 
         [AllowAnonymous]
-        [EnableCors("MyPolicy")]
+        //[EnableCors("MyPolicy")]
+        [EnableCors]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] User userObj)
         {
@@ -83,7 +84,7 @@ namespace Application.Controllers
         }
 
         [AllowAnonymous]
-        [EnableCors("MyPolicy")]
+        [EnableCors]
         [HttpPost("register")]
         public async Task<IActionResult> AddUser([FromBody] User userObj)
         {
@@ -192,41 +193,6 @@ namespace Application.Controllers
 
         }
 
-        private string CreateJwt(User user)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("veryverysceret.....");
-            var identity = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim(ClaimTypes.Name,$"{user.Username}")
-            });
-
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = identity,
-                Expires = DateTime.Now.AddSeconds(10),
-                SigningCredentials = credentials
-            };
-            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-            return jwtTokenHandler.WriteToken(token);
-        }
-
-        private string CreateRefreshToken()
-        {
-            var tokenBytes = RandomNumberGenerator.GetBytes(64);
-            var refreshToken = Convert.ToBase64String(tokenBytes);
-
-            var tokenInUser = _authContext.Users
-                .Any(a => a.RefreshToken == refreshToken);
-            if (tokenInUser)
-            {
-                return CreateRefreshToken();
-            }
-            return refreshToken;
-        }
 
         private ClaimsPrincipal GetPrincipleFromExpiredToken(string token)
         {
@@ -249,35 +215,29 @@ namespace Application.Controllers
                 
         }
 
-        [Authorize]
-        [HttpGet]
-        public async Task<ActionResult<User>> GetAllUsers()
-        {
-            return Ok(await _authContext.Users.ToListAsync());
-        }
-
-        [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody]TokenApiDto tokenApiDto)
-        {
-            if (tokenApiDto is null)
-                return BadRequest("Invalid Client Request");
-            string accessToken = tokenApiDto.AccessToken;
-            string refreshToken = tokenApiDto.RefreshToken;
-            var principal = GetPrincipleFromExpiredToken(accessToken);
-            var username = principal.Identity.Name;
-            var user = await _authContext.Users.FirstOrDefaultAsync(u => u.Username == username);
-            if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-                return BadRequest("Invalid Request");
-            var newAccessToken = CreateJwt(user);
-            var newRefreshToken = CreateRefreshToken();
-            user.RefreshToken = newRefreshToken;
-            await _authContext.SaveChangesAsync();
-            return Ok(new TokenApiDto()
-            {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken,
-            });
-        }
+        
+        //[HttpPost("refresh")]
+        //public async Task<IActionResult> Refresh([FromBody]TokenApiDto tokenApiDto)
+        //{
+        //    if (tokenApiDto is null)
+        //        return BadRequest("Invalid Client Request");
+        //    string accessToken = tokenApiDto.AccessToken;
+        //    string refreshToken = tokenApiDto.RefreshToken;
+        //    var principal = GetPrincipleFromExpiredToken(accessToken);
+        //    var username = principal.Identity.Name;
+        //    var user = await _authContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+        //    if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        //        return BadRequest("Invalid Request");
+        //    var newAccessToken = CreateJwt(user);
+        //    var newRefreshToken = CreateRefreshToken();
+        //    user.RefreshToken = newRefreshToken;
+        //    await _authContext.SaveChangesAsync();
+        //    return Ok(new TokenApiDto()
+        //    {
+        //        AccessToken = newAccessToken,
+        //        RefreshToken = newRefreshToken,
+        //    });
+        //}
     }
 
 }

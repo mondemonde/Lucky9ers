@@ -4,29 +4,43 @@ using Serilog.Events;
 using Serilog;
 using System.Text;
 using Lucky99.Utilities.Cors;
+using api.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+#region  CORS ----------------------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("MyPolicy", builder => builder
-        //.WithOrigins("https://localhost:44445",
-        //"http://localhost:44445",
-        //"http://localhost:4200",
-        //"http://localhost:44463",
-        // "https://localhost:44463",
-        //"https://localhost:44463",
-        //"https://localhost:4200")
+    options.AddDefaultPolicy(builder => builder
+        .SetIsOriginAllowedToAllowWildcardSubdomains()
+        //.WithOrigins("https://localhost:44418/")
         .AllowAnyOrigin()
-        .AllowAnyMethod() // This doesn't explicitly include OPTIONS
         .AllowAnyHeader()
-        .WithMethods("OPTIONS", "GET", "POST", "PUT", "DELETE"));
-
-
-    //.SetPreflightMaxAge(TimeSpan.FromSeconds(3600)));
-
+        .AllowAnyMethod()
+        //.AllowCredentials()
+        .WithMethods("OPTIONS", "GET", "POST", "PUT", "DELETE")
+        .Build());
 });
 
+////builder.Services.AddCors(options =>
+////{
+////    options.AddPolicy("MyPolicy", builder => builder
+////        //.WithOrigins("https://localhost:44445",
+////        //"http://localhost:44445",
+////        //"http://localhost:4200",
+////        //"http://localhost:44463",
+////        // "https://localhost:44463",
+////        //"https://localhost:44463",
+////        //"https://localhost:4200")
+////        .AllowAnyOrigin()
+////        .AllowAnyMethod() // This doesn't explicitly include OPTIONS
+////        .AllowAnyHeader()
+////        .WithMethods("OPTIONS", "GET", "POST", "PUT", "DELETE"));
+////});
+#endregion
 
+//_step #1 enable logging
 #region ----------Configure Logging-----------
 
 var appDirectory = System.AppContext.BaseDirectory;
@@ -51,48 +65,17 @@ builder.Host.UseSerilog();
 
 #endregion
 
+//_step #2 setp configruations for environments
+builder.Host.ConfigureAppConfigurationFromCustomFile();
+AppGlobal.Environment = builder.Environment;
 
-// Add services to the container.
-
-
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new Microsoft.OpenApi
-        .Models.OpenApiInfo
-    { Title = "Luck9 API", Version = "v1" });
-});
-
+//_step #3 Cofigure services to add
+builder.Services.ConfigureServices();
 builder.Services.AddDataBaseServices(builder.Configuration);
-builder.Services.AddApplicationServices();
-builder.Services.ManageDependencyInjection();
-
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("veryverysceret.....")),
-        ValidateAudience = false,
-        ValidateIssuer = false,
-        ClockSkew = TimeSpan.Zero
-    };
-});
 
 //End configurations--------------------------------
+
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -113,7 +96,7 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
-app.UseCors("MyPolicy");
+app.UseCors();
 
 
 

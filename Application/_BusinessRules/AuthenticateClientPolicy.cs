@@ -16,6 +16,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Helpers;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using System.Runtime.CompilerServices;
+using Lucky9.Application.Common.Models;
 
 namespace Lucky9.Application._BusinessRules
 {
@@ -38,11 +41,12 @@ namespace Lucky9.Application._BusinessRules
 
         }
 
-
+        public static AppSettings _config { get; set; } 
         public static async Task<TokenApiDto> AssertAuthenticatePolicy(AuthenticateCommand request,
             IValidator<AuthenticateCommand> _validator,
-            IPlayerRepository _repo)
+            IPlayerRepository _repo, AppSettings config)
         {
+            _config = config as AppSettings;
             var validationResult = _validator.Validate(request);
 
             //check user exist
@@ -106,7 +110,7 @@ namespace Lucky9.Application._BusinessRules
 
         }
 
-        const string SECRET = "thequickbrownfoxjumpsover the lazy dog";
+       //const string SECRET = _config
         public static string GettToken(User user)
         {
             // Your user claims or payload data
@@ -118,7 +122,7 @@ namespace Lucky9.Application._BusinessRules
         };
 
             // Your secret key used to sign the token
-            var secretKey = SECRET;
+            var secretKey =  _config.JWT.Secret;
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
 
             // Choose the signing algorithm
@@ -144,7 +148,7 @@ namespace Lucky9.Application._BusinessRules
         static string CreateJwt(User user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(SECRET);
+            var key = Encoding.ASCII.GetBytes(_config.JWT.Secret);
             var identity = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Role, user.Role),

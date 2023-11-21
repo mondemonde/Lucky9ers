@@ -3,7 +3,9 @@ using Domain.Models;
 using FluentValidation;
 using Lucky9.Application._BusinessRules;
 using Lucky9.Application.Commands;
+using Lucky9.Application.Common.Models;
 using Lucky9.Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Moq;
 namespace Application.UnitTest;
 
@@ -32,9 +34,17 @@ public class AuthenticateClientPolicyTests
                 ,LastName ="Doe"
                 , Password = PasswordHasher.HashPassword(validPassword) } });
 
+        var configurationMock = new Mock<IConfiguration>();
+        configurationMock.SetupGet(c => c["JWT:Issuer"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
+        configurationMock.SetupGet(c => c["JWT:Audience"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
+        configurationMock.SetupGet(c => c["JWT:Secret"]).Returns("your-private-key");
+
+
         // Act
         var result = await AuthenticateClientPolicy
-        .AssertAuthenticatePolicy(authenticateCommand, validatorMock.Object, userRepoMock.Object);
+        .AssertAuthenticatePolicy(authenticateCommand, validatorMock.Object
+        ,userRepoMock.Object
+        , configurationMock.Object);
 
         // Assert
         Assert.NotNull(result.AccessToken);
@@ -57,6 +67,23 @@ public class AuthenticateClientPolicyTests
         validatorMock.Setup(x => x.Validate(It.IsAny<AuthenticateCommand>()))
             .Returns(new FluentValidation.Results.ValidationResult());
 
+        var appSettingsMock = new Mock<AppSettings>();
+        appSettingsMock.Setup(x => x.JWT).Returns(new JWT
+        {
+            Secret = "secret",
+            Audience = "https://lucky9ers.azurewebsites.ne",
+            Issuer = "https://lucky9ers.azurewebsites.ne"
+
+        });
+
+        var configurationMock = new Mock<IConfiguration>();
+        configurationMock.SetupGet(c => c["JWT:Issuer"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
+        configurationMock.SetupGet(c => c["JWT:Audience"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
+        configurationMock.SetupGet(c => c["JWT:Secret"]).Returns("your-private-key");     
+
+
+
+
         var userRepoMock = new Mock<IPlayerRepository>();
         userRepoMock.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<User, bool>>>()))
             .ReturnsAsync(new User[] { new User { Email = "test@example.com"
@@ -67,7 +94,8 @@ public class AuthenticateClientPolicyTests
 
         // Act
         var result = await AuthenticateClientPolicy
-        .AssertAuthenticatePolicy(authenticateCommand, validatorMock.Object, userRepoMock.Object);
+        .AssertAuthenticatePolicy(authenticateCommand, validatorMock.Object
+        , userRepoMock.Object, configurationMock.Object);
 
         // Assert
         Assert.True(string.IsNullOrEmpty(result.AccessToken));

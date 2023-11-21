@@ -17,10 +17,9 @@ public class GameController : ApiControllerBase
 
 
 
-
-    [EnableCors("MyPolicy")]    
+    //[Authorize]
+    [EnableCors]    
     [HttpPost("creategame")]
-
     public async Task<IActionResult> CreateGame([FromBody] AddGameClientCommand bet)
     {
         try
