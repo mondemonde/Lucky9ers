@@ -127,7 +127,19 @@ export class MyGameService implements OnInit, OnDestroy {
 
         console.log(this.myGlobal.NewGameUrl);
 
-        this.makeHttpPostRequest2(this.myGlobal.NewGameUrl, obj);
+        this.makeHttpPostRequest(this.myGlobal.NewGameUrl, obj).subscribe(
+          response => {
+            console.log('POST request successful:', response);
+            let bet = response as Bet; // Ensure response structure matches the Bet type
+            this.changeBet(bet);
+            return response;
+           
+          },
+          error => {
+            console.error('POST request failed:', error);
+            // handle the error as needed
+          }
+        );
 
         break;
 
@@ -158,20 +170,9 @@ export class MyGameService implements OnInit, OnDestroy {
     const options = {
       headers: headers,
     };
+   console.log('Making post request');
 
-    return this.http.post(url, content_, options).pipe(
-      map((response: any) => {
-        // Process and transform the response here
-        let bet = response as Bet; // Ensure response structure matches the Bet type
-        this.changeBet(bet);
-        return response;
-      }),
-      catchError((error: any) => {
-        // Handle and log errors here
-        console.error('Error:', error);
-        throw error; // You can throw or return an error here if needed
-      })
-    );
+    return this.http.post(url, content_, options)
   }
 
 

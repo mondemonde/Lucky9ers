@@ -34,17 +34,22 @@ public class AuthenticateClientPolicyTests
                 ,LastName ="Doe"
                 , Password = PasswordHasher.HashPassword(validPassword) } });
 
-        var configurationMock = new Mock<IConfiguration>();
-        configurationMock.SetupGet(c => c["JWT:Issuer"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
-        configurationMock.SetupGet(c => c["JWT:Audience"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
-        configurationMock.SetupGet(c => c["JWT:Secret"]).Returns("your-private-key");
+        AppSettings settings = new AppSettings();
+        settings.JWT.Issuer = "https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00";
+        settings.JWT.Audience = "https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00";
+        settings.JWT.Secret = "your-private-key";
+
+        //var configurationMock = new Mock<IConfiguration>();
+        //configurationMock.SetupGet(c => c["JWT:Issuer"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
+        //configurationMock.SetupGet(c => c["JWT:Audience"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
+        //configurationMock.SetupGet(c => c["JWT:Secret"]).Returns("your-private-key");
 
 
         // Act
         var result = await AuthenticateClientPolicy
         .AssertAuthenticatePolicy(authenticateCommand, validatorMock.Object
         ,userRepoMock.Object
-        , configurationMock.Object);
+        , settings);
 
         // Assert
         Assert.NotNull(result.AccessToken);
@@ -76,14 +81,6 @@ public class AuthenticateClientPolicyTests
 
         });
 
-        var configurationMock = new Mock<IConfiguration>();
-        configurationMock.SetupGet(c => c["JWT:Issuer"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
-        configurationMock.SetupGet(c => c["JWT:Audience"]).Returns("https://medium.com/@monde.justflowers/why-dont-just-encapsulate-the-business-rule-developer-driven-design-8d7b31670f00");
-        configurationMock.SetupGet(c => c["JWT:Secret"]).Returns("your-private-key");     
-
-
-
-
         var userRepoMock = new Mock<IPlayerRepository>();
         userRepoMock.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<User, bool>>>()))
             .ReturnsAsync(new User[] { new User { Email = "test@example.com"
@@ -95,7 +92,7 @@ public class AuthenticateClientPolicyTests
         // Act
         var result = await AuthenticateClientPolicy
         .AssertAuthenticatePolicy(authenticateCommand, validatorMock.Object
-        , userRepoMock.Object, configurationMock.Object);
+        , userRepoMock.Object, appSettingsMock.Object);
 
         // Assert
         Assert.True(string.IsNullOrEmpty(result.AccessToken));

@@ -10,32 +10,27 @@ using Lucky9.Infrastructure.Data;
 using Lucky9.Application.Commands;
 using Lucky9.Application._Features.GameFeatures.Commands;
 using Microsoft.AspNetCore.Cors;
+using Lucky9.Application._Features.Utilities.SecurityToken.Queries;
 
 namespace Lucky9.WebUI.Controllers;
-public class GameController : ApiControllerBase
+public class UtilityController : ApiControllerBase
 {
 
 
 
-    [Authorize]
+    //[Authorize]
     [EnableCors]    
-    [HttpPost("creategame")]
-    public async Task<IActionResult> CreateGame([FromBody] AddGameClientCommand bet)
+    [HttpPost("GetTestToken")]
+    public async Task<IActionResult> GetTestToken([FromBody] AddGameClientCommand bet)
     {
         try
         {
-            //relay message to applicaiton layer...
-            var param = new AddGameClientCommand
-            {
-                Email = bet.Email,
-                BetMoney = bet.BetMoney
 
-            };
+            var param = new GetTestTokenQuery();
 
             var result = await Mediator.Send(param);
 
             return Ok(result);
-
         }
         catch (Exception e)
         {

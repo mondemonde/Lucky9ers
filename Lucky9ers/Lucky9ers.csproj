@@ -36,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Startup\AppGlobal.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ClientApp\.angular\cache\17.0.0\angular-webpack\3906538158d0a232683a11cdd1dbc2bfcb6bcb47\0.pack" />
     <None Remove="ClientApp\.angular\cache\17.0.0\angular-webpack\3906538158d0a232683a11cdd1dbc2bfcb6bcb47\index.pack" />
     <None Remove="ClientApp\.angular\cache\17.0.0\angular-webpack\540709a029046681cf9c24ba7176385fa44c2a7d\0.pack" />

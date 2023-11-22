@@ -20,7 +20,8 @@ namespace api.Startup
 
             }
         }
-     
+       // public static IWebHostEnvironment Environment { get; set; }
+
 
     }
 

@@ -154,21 +154,14 @@ public static partial class StartUp
         services.AddScoped<DataSeeder>();
 
         services.AddScoped<IPlayerRepository, EfCorePlayerRepository>();
-
         services.AddScoped<IBetRepository, EfCoreBetRepository>();
         services.AddScoped<IGameRepository, EfCoreGameRepository>();
-
-
         services.AddScoped<EfCorePlayerRepository>();
-
         services.AddScoped<EfCoreBetRepository>();
         services.AddScoped<EfCoreGameRepository>();
 
-
-
         services.AddScoped<IGameService, GameService>();
 
-        services.AddScoped<ISecurityService, IdentityHelper>();
 
 
     }

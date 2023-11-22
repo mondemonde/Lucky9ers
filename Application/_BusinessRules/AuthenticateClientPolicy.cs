@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Runtime.CompilerServices;
 using Lucky9.Application.Common.Models;
+using Lucky9.Application.Helpers;
 
 namespace Lucky9.Application._BusinessRules
 {
@@ -83,9 +84,9 @@ namespace Lucky9.Application._BusinessRules
             }
             try
             {
-                user.Token = GettToken(user);//CreateJwt(user);
+                user.Token = IdentityHelper.GettToken(user);//CreateJwt(user);
                 var newAccessToken = user.Token;
-                var newRefreshToken = CreateRefreshToken();
+                var newRefreshToken =IdentityHelper.CreateRefreshToken();
                 user.RefreshToken = newRefreshToken;
                 user.RefreshTokenExpiryTime = DateTime.Now.AddDays(5);
                 await _repo.Update(user);
@@ -108,74 +109,8 @@ namespace Lucky9.Application._BusinessRules
             }
             
 
-        }
-
-       //const string SECRET = _config
-        public static string GettToken(User user)
-        {
-            // Your user claims or payload data
-            var claims = new[]
-            {
-            new Claim(ClaimTypes.Name, user.FirstName),
-            new Claim(ClaimTypes.Role, "user"),
-            // Add any additional claims as needed
-        };
-
-            // Your secret key used to sign the token
-            var secretKey =  _config.JWT.Secret;
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
-
-            // Choose the signing algorithm
-            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            // Set token expiration time
-            var expiration = DateTime.UtcNow.AddDays(10);
-
-            // Create the JWT
-            var token = new JwtSecurityToken(
-                issuer: "rgalvez@blastasia.com",
-                audience: "your_audience",
-                claims: claims,
-                expires: expiration,
-                signingCredentials: signingCredentials
-            );
-
-            // Serialize the token to a string
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-            return tokenString;
-        }
-
-        static string CreateJwt(User user)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config.JWT.Secret);
-            var identity = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim(ClaimTypes.Name,$"{user.Username}")
-            });
-
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = identity,
-                Expires = DateTime.Now.AddSeconds(10),
-                SigningCredentials = credentials
-            };
-            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-            return jwtTokenHandler.WriteToken(token);
-        }
-
-
-        private static string CreateRefreshToken()
-        {
-            var tokenBytes = RandomNumberGenerator.GetBytes(64);
-            var refreshToken = Convert.ToBase64String(tokenBytes);
-
-            return refreshToken;
-        }
-
+        }  
+     
         #endregion-------------------------end authentication
     }
 }

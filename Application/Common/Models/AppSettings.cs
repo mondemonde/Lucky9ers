@@ -1,8 +1,16 @@
 ﻿
 namespace Lucky9.Application.Common.Models
 {
+   
     public class AppSettings
     {
+
+        public AppSettings()
+        {
+            JWT = new JWT();
+
+        }
+
         public bool UseInMemoryDatabase { get; set; }
         public ConnectionStrings ConnectionStrings { get; set; }
         public JWT JWT { get; set; }

@@ -67,7 +67,6 @@ builder.Host.UseSerilog();
 
 //_step #2 setp configruations for environments
 builder.Host.ConfigureAppConfigurationFromCustomFile();
-AppGlobal.Environment = builder.Environment;
 
 //_step #3 Cofigure services to add
 builder.Services.ConfigureServices();
@@ -94,11 +93,8 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lucky9 Api V1");
 });
 
-
 app.UseHttpsRedirection();
 app.UseCors();
-
-
 
 app.UseAuthentication();
 app.UseAuthorization();

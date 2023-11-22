@@ -134,7 +134,8 @@ namespace Application.Controllers
             }
         }
 
-
+        [Authorize]
+        [EnableCors]
         [HttpGet("find/{search?}")]
         public async Task<IActionResult> GetPlayers([FromRoute] string? search)
         {
@@ -215,29 +216,29 @@ namespace Application.Controllers
                 
         }
 
-        
-        //[HttpPost("refresh")]
-        //public async Task<IActionResult> Refresh([FromBody]TokenApiDto tokenApiDto)
-        //{
-        //    if (tokenApiDto is null)
-        //        return BadRequest("Invalid Client Request");
-        //    string accessToken = tokenApiDto.AccessToken;
-        //    string refreshToken = tokenApiDto.RefreshToken;
-        //    var principal = GetPrincipleFromExpiredToken(accessToken);
-        //    var username = principal.Identity.Name;
-        //    var user = await _authContext.Users.FirstOrDefaultAsync(u => u.Username == username);
-        //    if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-        //        return BadRequest("Invalid Request");
-        //    var newAccessToken = CreateJwt(user);
-        //    var newRefreshToken = CreateRefreshToken();
-        //    user.RefreshToken = newRefreshToken;
-        //    await _authContext.SaveChangesAsync();
-        //    return Ok(new TokenApiDto()
-        //    {
-        //        AccessToken = newAccessToken,
-        //        RefreshToken = newRefreshToken,
-        //    });
-        //}
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] TokenApiDto tokenApiDto)
+        {
+            if (tokenApiDto is null)
+                return BadRequest("Invalid Client Request");
+            string accessToken = tokenApiDto.AccessToken;
+            string refreshToken = tokenApiDto.RefreshToken;
+            var principal = GetPrincipleFromExpiredToken(accessToken);
+            var username = principal.Identity.Name;
+            var user = await _authContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+                return BadRequest("Invalid Request");
+            var newAccessToken =IdentityHelper.GettToken(user);
+            var newRefreshToken = IdentityHelper.CreateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            await _authContext.SaveChangesAsync();
+            return Ok(new TokenApiDto()
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken,
+            });
+        }
     }
 
 }
