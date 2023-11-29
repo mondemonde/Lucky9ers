@@ -36,7 +36,7 @@ namespace Application.Controllers
         }
 
         [AllowAnonymous]
-        //[EnableCors("MyPolicy")]
+      
         [EnableCors]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] User userObj)

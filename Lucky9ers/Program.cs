@@ -5,8 +5,39 @@ using Serilog;
 using System.Text;
 using Lucky99.Utilities.Cors;
 using api.Startup;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
+using System.Security.Authentication;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
+
+    #region HTTPS for kestrel-------------------------------------
+
+//    // Configure Kestrel with HTTPS and specify the certificate
+//    var dirExe = AppDomain.CurrentDomain.BaseDirectory;
+//    var certificateFilePath = Path.Combine(dirExe, "ssl", "server.crt");
+//    var privateKeyFilePath = Path.Combine(dirExe, "ssl", "server.key");
+
+//if (!File.Exists(certificateFilePath) || !File.Exists(privateKeyFilePath))
+//{
+//    throw new FileNotFoundException("Certificate or private key file not found");
+//}
+
+//var certificate = new X509Certificate2(certificateFilePath, File.ReadAllText(privateKeyFilePath));
+
+//builder.WebHost.UseKestrel(options =>
+//{
+//    options.ConfigureHttpsDefaults(httpsOptions =>
+//    {
+//        httpsOptions.ServerCertificate = certificate;
+//    });
+//});
+
+
+
+#endregion---------------------------------------------------
+
 
 
 #region  CORS ----------------------------
@@ -23,21 +54,6 @@ builder.Services.AddCors(options =>
         .Build());
 });
 
-////builder.Services.AddCors(options =>
-////{
-////    options.AddPolicy("MyPolicy", builder => builder
-////        //.WithOrigins("https://localhost:44445",
-////        //"http://localhost:44445",
-////        //"http://localhost:4200",
-////        //"http://localhost:44463",
-////        // "https://localhost:44463",
-////        //"https://localhost:44463",
-////        //"https://localhost:4200")
-////        .AllowAnyOrigin()
-////        .AllowAnyMethod() // This doesn't explicitly include OPTIONS
-////        .AllowAnyHeader()
-////        .WithMethods("OPTIONS", "GET", "POST", "PUT", "DELETE"));
-////});
 #endregion
 
 //_step #1 enable logging
@@ -95,6 +111,7 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseCors();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

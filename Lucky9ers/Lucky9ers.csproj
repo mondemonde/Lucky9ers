@@ -27,11 +27,15 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove="ClientApp\**" />
+    <Compile Remove="ssl\**" />
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\**" />
+    <Content Remove="ssl\**" />
     <EmbeddedResource Remove="ClientApp\**" />
+    <EmbeddedResource Remove="ssl\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\**" />
+    <None Remove="ssl\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
